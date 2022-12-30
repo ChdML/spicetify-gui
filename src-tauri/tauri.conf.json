@@ -1,0 +1,109 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist"
+  },
+  "package": {
+    "productName": "spicetify",
+    "version": "0.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "shell": {
+        "all": true
+      },
+      "process": {
+        "all": true
+      },
+      "notification": {
+        "all": true
+      },
+      "window": {
+        "all": false
+      },
+      "protocol": {
+        "all": false
+      },
+      "path": {
+        "all": true
+      },
+      "os": {
+        "all": false
+      },
+      "http": {
+        "all": true,
+        "request": false,
+        "scope": []
+      },
+      "globalShortcut": {
+        "all": false
+      },
+      "fs": {
+        "all": true
+      },
+      "dialog": {
+        "all": false
+      },
+      "clipboard": {
+        "all": false,
+        "readText": true,
+        "writeText": false
+      },
+      "app": {
+        "all": true
+}
+
+
+    },
+    "bundle": {
+      "active": true,
+      "category": "DeveloperTool",
+      "copyright": "",
+      "deb": {
+        "depends": []
+      },
+      "externalBin": [],
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ],
+      "identifier": "com.chdml.spicetify",
+      "longDescription": "",
+      "macOS": {
+        "entitlements": null,
+        "exceptionDomain": "",
+        "frameworks": [],
+        "providerShortName": null,
+        "signingIdentity": null
+      },
+      "resources": [],
+      "shortDescription": "",
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": null,
+        "digestAlgorithm": "sha256",
+        "timestampUrl": ""
+      }
+    },
+    "security": {
+      "csp": null
+    },
+    "updater": {
+      "active": false
+    },
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Spicetify",
+        "minHeight": 900,
+        "minWidth": 1200
+      }
+    ]
+  }
+}
