@@ -45,10 +45,11 @@ export function getOs(): {
 
 export function getInstallCmds(): Array<string> {
     const os = getOs()
-    // if (localStorage.getItem("install_cmd") !== null) return localStorage.getItem("install_cmd") || [""]
+    if (localStorage.getItem("install_cmd") !== null) return localStorage.getItem("install_cmd")?.split(";") || [""]
     if (os.isWin) return ["iex (iwr -useb https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.ps1).Content",
         "iex (iwr -useb https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.ps1).Content"]
-    // if (os.isLinux || os.isMac) return "curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh | sh | curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh | sh"
+    if (os.isLinux || os.isMac) return ["curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-cli/master/install.sh", "sh",
+    "curl -fsSL https://raw.githubusercontent.com/spicetify/spicetify-marketplace/main/resources/install.sh", "sh"]
     return ["echo \"Please add your own install command in the settings\""]
 }
 export function getUninstallCmds(): Array<string> {
@@ -62,17 +63,4 @@ export function getUninstallCmds(): Array<string> {
     
     return ["echo \"Please add your own uninstall command in the settings\""]
 
-}
-export function isAllowedToCheckForUpdates(): {
-    app: boolean,
-    cli: boolean
-} {
-    const appAllowed = (localStorage.getItem("check_updates_app") === null)
-        || localStorage.getItem("check_updates_app") === "yes"
-    const cliAllowed = (localStorage.getItem("check_updates_cli") === null)
-        || localStorage.getItem("check_updates_cli") === "yes"
-    return {
-        app: appAllowed,
-        cli: cliAllowed
-    }
 }

@@ -6,8 +6,8 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "spicetify",
-    "version": "0.0.0"
+    "productName": "Spicetify GUI",
+    "version": "0.1"
   },
   "tauri": {
     "allowlist": {
@@ -33,7 +33,7 @@
         "all": false
       },
       "http": {
-        "all": true,
+        "all": false,
         "request": false,
         "scope": []
       },
@@ -41,7 +41,7 @@
         "all": false
       },
       "fs": {
-        "all": true
+        "all": false
       },
       "dialog": {
         "all": false
@@ -53,9 +53,7 @@
       },
       "app": {
         "all": true
-}
-
-
+      }
     },
     "bundle": {
       "active": true,
@@ -72,7 +70,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.chdml.spicetify",
+      "identifier": "com.chdml.spicetify-gui",
       "longDescription": "",
       "macOS": {
         "entitlements": null,

@@ -26,55 +26,53 @@ fn run_cmds(cmds: Vec<String>, is_windows: bool, window: tauri::Window) {
     }
     /**/
     /*Open new window and read output*/
-    let stdout = output
-        .stdout(std::process::Stdio::piped())
-        .spawn()
-        .expect("failed to execute process")
+    let spawned_process = output.stdout(std::process::Stdio::piped()).spawn()
+    .expect("failed to execute process");
+    let proc_id_eval = format!("window['set_proc_id'](`{}`)", &spawned_process.id());
+    window.eval(&proc_id_eval);
+
+    let stdout = spawned_process
         .stdout
         .expect("failed to get stdout");
+
     let reader = io::BufReader::new(stdout);
-    
+
     for line in reader.lines() {
         // println!("{}", line.unwrap());
         let mut mut_str = "".to_string();
-        let output_str = format!("window['cmd_output'](`{}`)", &line.unwrap_or(mut_str));
+        let output_str = format!("window['cmd_output'](`{}`)", &line.unwrap_or(mut_str).replace("\\", "\\\\"));
         window.eval(&output_str);
     }
     window.eval("window['cmd_done']()");
-    
+
     /**/
 }
 
-fn check_if_commands_harmful(cmds: &str) -> bool {
-    let allowed_commands = vec![
-        "ls",
-        "echo",
-        "pwd",
-        "cat",
-        "grep",
-        "iwr",
-        "iex",
-        "curl",
-        "sh",
-        "spicetify",
-    ];
+#[tauri::command]
+fn kill_proc(pid: i32, window: tauri::Window) {
+    let os = std::env::consts::OS;
+    let output = if os.contains("windows") {
+        Command::new("taskkill")
+            .arg("/pid")
+            .arg(pid.to_string())
+            .arg("/f")
+            .output()
+            .expect("Failed to kill process")
+    } else {
+        Command::new("kill")
+            .arg("-9")
+            .arg(pid.to_string())
+            .output()
+            .expect("Failed to kill process")
+    };
+    window.eval("window['proc_killed']()");
 
-    // split the cmd string on the "|" symbol
-    let child_commands: Vec<&str> = cmds.split("|").flat_map(|s| s.split(";")).collect();
-
-    // check each child command against the whitelist
-    for child_cmd in child_commands {
-        if !allowed_commands.contains(&child_cmd.trim().split_whitespace().next().unwrap()) {
-            println!("Dangerous Command detected: {}", child_cmd);
-            return true;
-        }
-    }
-    return false;
+    /**/
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![run_cmds])
+        .invoke_handler(tauri::generate_handler![run_cmds, kill_proc])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
