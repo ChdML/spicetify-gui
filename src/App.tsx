@@ -18,7 +18,10 @@ const App = () => {
         setSelectedTab={setSelectedTab} />
         <Toaster position="bottom-right" toastOptions={{
         duration: 6000,
-        className: "bg-grey-900 text-common-white"
+        style: {
+          backgroundColor: "rgb(33 33 33)",
+          color: "rgb(255 255 255)"
+        }
         }} />
       <main>
         <AnimatePresence mode="wait">

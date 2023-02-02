@@ -145,8 +145,7 @@ const CmdButton = ({
   };
   win.cmd_done = () => {
     toast.success("Finished Running Command!");
-    if (notification)
-      sendNotification({
+    if (notification) sendNotification({
         title: "Spicetify",
         body: notification,
       });
