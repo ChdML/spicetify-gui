@@ -99,8 +99,8 @@
         "fullscreen": false,
         "resizable": true,
         "title": "Spicetify",
-        "minHeight": 900,
-        "minWidth": 1200
+        "minHeight": 896,
+        "minWidth": 414
       }
     ]
   }
